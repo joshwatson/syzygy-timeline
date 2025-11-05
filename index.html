@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Load the JS file -->
+  <script src="gitgraph.js"></script>
+</head>
+<body>
+  <!-- DOM element in which we'll mount our graph -->
+  <div id="graph-container"></div>
+  <!-- Use the `GitgraphJS` global variable to create your graph -->
+  <script>
+    // Get the graph container HTML element.
+    const graphContainer = document.getElementById("graph-container");
+
+    const metroTemplateWithoutAuthor = GitgraphJS.templateExtend(GitgraphJS.TemplateName.Metro, {
+    commit: {
+            message: {
+            displayAuthor: false,
+            displayHash: false,
+            },
+        },
+    });
+
+    // Instantiate the graph.
+    const options = {
+        orientation: "vertical-reverse",
+        template: metroTemplateWithoutAuthor,
+    };
+    const gitgraph = GitgraphJS.createGitgraph(graphContainer, options);
+
+    const session_tag = (name) => ({name: name, style: {bgColor: "black", strokeColor: "black"}});
+
+    const create_branch = (name, color) => (
+        {
+            name: name,
+            style: {
+                color: color,
+                label: {
+                    color: color,
+                    strokeColor: color
+                }
+            },
+            commitDefaultOptions: {
+                style: {
+                    dot: {
+                        color: color
+                    },
+                    message: {
+                        color: color
+                    }
+                }
+            }
+        }
+    );
+
+    // Simulate git commands with Gitgraph API.
+    const timeline = gitgraph.branch("timeline");
+    timeline.commit("Day 0");
+
+    const faustsys = timeline.branch(create_branch("Faustsys", "red"));
+
+    faustsys
+        .commit("The Party takes a job from Jack, the Client")
+        .tag(session_tag("Session 0"))
+        .commit("The Party does recon on the Faustsys lab");
+
+    timeline.commit("Day 1");
+
+    faustsys
+        .commit("The Party infiltrates the Faustsys lab and installs a USB key")
+        .tag(session_tag("Session 1"));
+
+    timeline.commit("Day 2").commit("Day 3");
+
+    faustsys.commit("The lab explodes");
+
+    timeline.commit("Day 4").commit("Day 5");
+
+    faustsys
+        .commit("Zane learns the lab exploded; The Party goes to confront Jack")
+        .commit("The Party learns Jack was double-crossed too")
+        .tag(session_tag("Session 2"));
+
+    const euclidcorp = faustsys.branch(create_branch("Euclidcorp", "purple"));
+
+    euclidcorp
+        .commit("Cleaners are sent to Jack's apartment; Jack is assassinated")
+        .commit("The Cleaners try to kill The Party")
+        .commit("The Party escapes in the Cleaners' van with their gear")
+        .tag(session_tag("Session 3"))
+        .commit("The Cleaners' phones reveal someone named '.' is behind Cleaners");
+
+    faustsys.commit("The news reports that there have been several gruesome murders in the vicinity of the Faustsys lab");
+
+    timeline.commit("Day 6");
+
+    euclidcorp.commit("The Party leaves the city for Jack's AirBnb to regroup");
+
+    timeline.commit("Day 7").commit("Day 8");
+
+    const mysterious_substance = euclidcorp.branch(create_branch("Mysterious Substance", "Sienna"));
+
+    euclidcorp
+        .commit("Zane asks Peter to track the Cleaners' phones")
+        .tag(session_tag("Session 4"));
+
+    const peter_burke = euclidcorp.branch(create_branch("Peter Burke", "DarkBlue"));
+
+    peter_burke.commit("Peter looks into the Cleaners' phones");
+
+    mysterious_substance
+        .commit("The Party rescues a hiker from mutant bears")
+        .commit("Mia collects a sample of the substance that tainted the river, mutating the bears");
+
+    timeline.commit("Day 9");
+
+    mysterious_substance
+        .commit("The Party takes the sample to Professor Oak at the university")
+        .tag(session_tag("Session 5"));
+
+    euclidcorp
+        .merge({
+            branch: mysterious_substance,
+            commitOptions: {
+                subject: "Oak tells them to try the Material Sciences lab"
+            }
+        })
+        .commit("The Party finds purple crystal shards in the MatSci lab; Zane and Ricky almost die to a specter");
+
+    timeline.commit("Day 10");
+
+    euclidcorp
+        .commit("Zane and Ricky recover, have cold skin and icy blue eyes")
+        .tag(session_tag("Session 6"))
+        .commit("Ash tells The Party that Professor Oak was taken by Suits");
+
+    mysterious_substance.merge(
+        {
+            branch: euclidcorp,
+            commitOptions: {
+                subject: "Ash discovers the substance's arcane resonance is wrong"
+            }
+        });
+
+    faustsys
+        .commit("The Party investigates the murders near the lab")
+        .commit("The Party fights a maw demon at the lab")
+        .commit("Vantus finds red crystal shards at the lab");
+
+    timeline.commit("Day 11");
+
+    faustsys
+        .commit("The Party gives Ash the red crystal shards")
+        .tag(session_tag("Session 7"));
+
+    euclidcorp
+        .merge(
+            {
+                branch: faustsys,
+                commitOptions: {
+                    subject: "Zane and Ricky see a woman in a white dress at the university who disappears"
+                }
+            }
+        )
+        .commit("Bikers attack!")
+        .commit("Ricky is unresponsive and dropped at the hospital with Mia");
+    
+    const miranda_cosgrove = euclidcorp.branch(create_branch("Miranda Cosgrove", "SteelBlue"));
+
+    miranda_cosgrove
+        .commit("Vantus gets a healer contact from his buddy Edwin, meets Miranda")
+        .tag(session_tag("Session 8"))
+        .commit("Miranda heals Vantus");
+
+    euclidcorp
+        .commit("Ricky sees the woman in white while unconscious; she demands he find her")
+        .commit("Ricky wakes up, sees the biker on the news and his biker jacket")
+        .commit("Zane and Vantus get Ricky from the hospital, Vantus argues with a nurse")
+        .commit("Mia steals some hospital supplies")
+        .tag(session_tag("Session 9"));
+
+    miranda_cosgrove
+        .merge(
+            {
+                branch: euclidcorp,
+                commitOptions: {
+                    subject: "Miranda heals Ricky"
+                }
+            }
+        )
+        .commit("Miranda warns Vantus");
+
+    euclidcorp
+        .commit("The Party identifies the biker gang as the Dark Travelers");
+
+    peter_burke
+        .commit("Zane asks Peter about the Dark Travelers")
+        .commit("Peter tells Zane he was iced out of the Faustsys case");
+
+    timeline.commit("Day 12");
+
+    faustsys
+        .commit("The Party meets McKenna at the docks")
+        .commit("Lucian Blackwood and his demons ambush The Party")
+        .commit("Vantus kills Lucian Blackwood")
+        .tag(session_tag("Session 10"))
+        .commit("The Party rests at a pizza shop");
+
+    const framed_for_murder = faustsys.branch(create_branch("Framed for Murder", "Olive"));
+
+    framed_for_murder
+        .commit("The news reports that Vantus is implicated in the murder of the nurse he argued with");
+
+    euclidcorp
+        .merge(
+            {
+                branch: faustsys,
+                commitOptions: {
+                    subject: "The woman in white appears and leads The Party to a warehouse"
+                }
+            }
+        )
+        .commit("A Shady Pines van exits the warehouse")
+        .commit("Zane tricks a realtor into opening the adjacent office building")
+        .tag(session_tag("Session 11"))
+        .commit("The Party uses the office building to infiltrate the warehouse")
+        .commit("The warehouse reveals Euclidcorp is tied to purple crystals");
+
+    timeline.commit("Day 13");
+
+    euclidcorp
+        .commit("Mia meets Ash at a coffee shop")
+        .tag(session_tag("Session 12"))
+        .commit("Zane gets the contact for who hired the bikers")
+        .commit("The Party tries to trick the contact, fails")
+        .commit("Fight at warehouse confirms Euclidcorp hired the Dark Travelers");
+
+    timeline
+        .commit("Day 14")
+        .commit("Day 15")
+        .commit("Day 16");
+
+    euclidcorp
+        .commit("The Party visits Shady Pines")
+        .tag(session_tag("Session 14"));
+
+    const miller_rain = euclidcorp.branch(create_branch("Miller Rain", "MediumVioletRed"));
+
+    miller_rain
+        .commit("Miller has not been taking her meds, says she hears Ricky's dad speaking to her")
+        .commit("Miller shows The Party what Ricky's dad has said to her");
+
+    euclidcorp
+        .commit("The Party eavesdrops on a Suit and ghoul threatening orderly")
+        .commit("The orderly tells The Party that Euclidcorp moved their lab to abandoned subway station");
+    
+    timeline
+        .commit("Day 17")
+        .commit("Day 18")
+        .commit("Day 19");
+
+    mysterious_substance
+        .commit("Ash sends Mia schematics for an arcane dissonance detector, needs aether")
+        .tag(session_tag("Session 15"));
+
+    euclidcorp
+        .commit("The Party goes to the subway, Mia dispatches the lookout")
+        .commit("Ghouls attack The Party when they enter the subway station")
+
+    const mac = euclidcorp.branch(create_branch("Mac", "DarkGreen"));
+
+    mac
+        .commit("The Party meets Mac and learns about his family")
+        .tag(session_tag("Session 16"));
+
+
+  </script>
+</body>
+</html>
