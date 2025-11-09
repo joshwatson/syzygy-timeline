@@ -23,7 +23,6 @@
 
     // Instantiate the graph.
     const options = {
-        orientation: "vertical-reverse",
         template: metroTemplateWithoutAuthor,
     };
     const gitgraph = GitgraphJS.createGitgraph(graphContainer, options);
@@ -264,8 +263,8 @@
         .tag(session_tag("Session 15"));
 
     euclidcorp
-        .commit("The Party goes to the subway, Mia dispatches the lookout")
-        .commit("Ghouls attack The Party when they enter the subway station")
+        .commit("The Party goes to the subway, Mia dispatches the lookout, finds gun with strange bullets")
+        .commit("Ghouls attack The Party when they enter the subway station");
 
     const mac = euclidcorp.branch(create_branch("Mac", "DarkGreen"));
 
@@ -273,6 +272,426 @@
         .commit("The Party meets Mac and learns about his family")
         .tag(session_tag("Session 16"));
 
+    euclidcorp
+        .merge({
+            branch: mac,
+            commitOptions: {
+                subject: "Mac leads The Party to Euclidcorp's underground lab"
+            }
+        })
+        .commit("The Party infiltrates the lab and discovers Professor Oak is being held prisoner and starved")
+        .commit("Zane disguises himself as a Suit and neutralizes a security guard with a suggestion spell")
+        .tag(session_tag("Session 17"))
+        .commit("The Party busts into a room of machinery and interrogates the scientists, learns the machine fills the crystals using the victims")
+        .tag(session_tag("Session 18"))
+        .commit("The Party explores further into the lab, overhears a Suit arguing with a \"Son of Horus\"")
+        .commit("The \"Son of Horus\" releases a horde of ghouls on the Euclidcorp Suits")
+        .commit("The Party retreats from the horde as a ghoul with a glowing crystal turns Suits to ghouls")
+        .commit("Mia carries Professor Oak out of the lab")
+        .commit("Zane attempts to rescue other victims but ultimately fails")
+        .tag(session_tag("Session 19"))
+        .commit("The Party escapes from the lab into the tunnels, the Crystalline Ghoul in pursuit")
+        .commit("A hulking wolf man smashes the Crystalline Ghoul")
+
+    mac
+        .merge(
+            {
+                branch: euclidcorp,
+                commitOptions: {
+                    subject: "It turns out the wolf man is Mac"
+                }
+            }
+        )
+        .tag(session_tag("Session 20"));
+
+    euclidcorp
+        .commit("The Party retrieves dun crystals from the dead Suit Ghoulings and Crystalline Ghoul");
+
+    framed_for_murder
+        .commit("Ricky's foster parents leave a message that the police are looking for him");
+
+    miller_rain
+        .commit("Ricky has a voicemail from Shady Pines about his mom. The Party suspects a trap");
+
+    framed_for_murder
+        .commit("The news reports that Vantus and Mia are implicated in Jack's murder");
+
+    peter_burke
+        .commit("Zane meets with Peter to explain much of what has happened; Peter agrees to run interference");
+    
+    miranda_cosgrove
+        .commit("The Party takes Oak to Miranda, she agrees to care for him")
+        .commit("Miranda warns The Party to run if they encounter a Son of Horus")
+        .commit("Miranda asks Zane to investigate a war brewing between two factions of demons");
+
+    timeline.commit("Day 20");
+
+    miller_rain
+        .commit("The Party heads to Shady Pines, expecting a trap")
+        .tag(session_tag("Session 21"));
+
+    const weavers = miller_rain.branch(create_branch("The Weavers", "DarkOrange"));
+
+    weavers
+        .commit("Zane sees two men leave the Shady Pines parking lot");
+
+    miller_rain
+        .commit("The doctor reveals he was meant to stall Ricky; a large automaton bursts through the wall")
+        .commit("The automaton goes berserk while fighting The Party, bursts into Miller's room");
+
+    faustsys.merge(
+        {
+            branch: miller_rain,
+            commitOptions: {
+                subject: "The automaton goes berserk, releasing a demon from a shattered red crystal"
+            }
+        }
+    )
+    .tag(session_tag("Session 22"));
+
+    weavers.merge(
+        {
+            branch: faustsys,
+            commitOptions: {
+                subject: "The two men Zane saw earlier appear and help The Party destroy the demon"
+            }
+        }
+    )
+
+    miller_rain
+        .merge(
+            {
+                branch: faustsys,
+                commitOptions: {
+                    subject: "Miller escaped during the fight"
+                }
+            }
+        )
+        .merge(
+            {
+                branch: weavers,
+                commitOptions: {
+                    subject: "Chakir and Thibauld were sent to help Miller but they don't know why"
+                }
+            }
+        );
+    
+    weavers
+        .commit("Chakir and Thibauld agree to compare notes with The Party")
+        .tag(session_tag("Session 23"));
+
+    euclidcorp
+        .merge(
+            {
+                branch: weavers,
+                commitOptions: {
+                    subject: "The Weavers say they are hunting a necromancer, The Party surmises he is related to what Euclidcorp is doing"
+                }
+            }
+        )
+        .commit("Chakir and Thibauld meet up with The Party to return to the undergound lab; learn that it's being surveilled")
+        .tag(session_tag("Session 24"))
+        .commit("Ricky and Vantus track a camera signal to a warehouse; Vantus holds a Suit at gun point")
+        .commit("Suit kills himself using his crystal. Chakir surmises his soul was the conduit to power it")
+        .tag(session_tag("Session 25"))
+        .commit("Ricky hacks a Euclidcorp computer; finds trove of information about Euclid attempts to build automata using people's souls");
+
+    framed_for_murder
+        .merge(
+            {
+                branch: euclidcorp,
+                commitOptions: {
+                    subject: "Ricky's hack finds evidence that '.' ordered the killing of the nurse because they thought she was involved"
+                }
+            }
+        );
+    
+    euclidcorp
+        .commit("Ricky's hack reveals the identify of '.' is Edward Wright, a leader in the Experimental Energy division");
+
+    miller_rain
+        .commit("Ricky contacts a family friend, Thomas Cable, to ask about his mom's whereabouts");
+
+    timeline.commit("Day 21");
+
+    peter_burke
+        .merge(
+            {
+                branch: euclidcorp,
+                commitOptions: {
+                    subject: "Zane meets up with Peter and tells him what they've learned. Peter believes Euclidcorp has infiltrated the FBI"
+                }
+            })
+        .tag(session_tag("Session 26"));
+
+    euclidcorp
+        .commit("Ricky investigates Edward Wright, finds a possible home address on the dark web");
+
+    const markus = euclidcorp.branch("Markus Jasper");
+
+    markus.commit("Vantus' contact, Markus Jasper, offers assistance in return for a favor");
+
+    const dyson_bennett = markus.branch("Dyson Bennett");
+
+    dyson_bennett.commit("Markus asks The Party to find Dyson Bennett, a Faustsys scientist who has disappeared");
+
+    markus.merge(
+        {
+            branch: dyson_bennett,
+            commitOptions: {
+                subject: "Markus asks The Party to bring Dyson to him first"
+            }
+        }
+    );
+
+    faustsys.merge(
+        {
+            branch: dyson_bennett,
+            commitOptions: {
+                subject: "Markus offers to \"keep the hounds at bay\" while they hunt for Dyson"
+            }
+        }
+    );
+
+    dyson_bennett.commit("Markus gives The Party two weeks to find Dyson");
+
+    euclidcorp
+        .commit("Mia meets with Ash, tells him they've recovered Oak. Ash says the automata reports make sense, given Faustsys' results");
+
+    faustsys.merge(
+        {
+            branch: euclidcorp,
+            commitOptions: {
+                subject: "Ash says he's unsure how Faustsys accomplished this with a different energy source. He needs a lab to do more research"
+            }
+        }
+    );
+
+    const jebarkus = faustsys.branch("Jebarkus");
+
+    jebarkus
+        .commit("Mia reaches out to her contact Jebarkus to ask for access to a lab");
+
+    framed_for_murder
+        .commit("Vantus and Mia are tailed by a cop, who mysteriously walks away. Vantus suspects it's Markus' doing")
+        .tag(session_tag("Session 27"));
+
+    jebarkus
+        .commit("Jeb offers Mia an old lab site, in exchange for running a job: stealing pure aether from Bombadil");
+
+    const mozzie = jebarkus.branch("Mozzie");
+
+    mozzie
+        .commit("Zane meets Mozzie to ask about Bombadil trucks; Mozzie asks Zane to put stickers up for his new blog")
+        .tag(session_tag("Session 28"));
+
+    jebarkus
+        .commit("Mia breaks into the chemistry department's storage; steals aerosol reagents and components for thermite")
+        .commit("Ricky purchases a radio jammer");
+
+    mozzie
+        .commit("Zane puts up stickers at the university, hands one to Tim the professor");
+
+    miranda_cosgrove
+        .commit("Vantus gets a call from Miranda, she's being attacked")
+        .commit("The Party arrives just in time to save Miranda and Oak from ghouls, after Euclidcorp cleaners hit the chapel")
+        .tag("Session 29")
+        .commit("Miranda leaves to track the down the rest of the ghoul horde");
+
+    euclidcorp
+        .commit("The Party takes Oak to Zane's house to recuperate")
+        .tag("Session 30");
+
+    timeline
+        .commit("Day 22");
+
+    jebarkus.commit("The Party hatches their plan for the heist");
+
+    timeline.commit("Day 23").commit("Day 24");
+
+    jebarkus
+        .commit("The Party pulls off the heist with no casualties on either side, paints the Tan Sedan gold (now Goldsmobile)")
+        .commit("The Party delivers the aether, still strapped to its containment circle, to Jebarkus. He tells them where an old lab is, but double-crosses them")
+        .commit("Two tweakers use a pale white drug to transform into mutant creatures; The Party blows up the mechanic shop")
+        .tag("Session 31");
+
+    mysterious_substance.merge(
+        {
+            branch: jebarkus,
+            commitOptions: {
+                subject: "The mutant transformation was just like the mutant bears The Party fought"
+            }
+        }
+    );
+
+    jebarkus
+        .commit("Mia cleans up the old lab and sets traps to protect them and Ash");
+
+    dyson_bennett
+        .commit("The Party gets the police report about Dyson's disappearance")
+        .commit("Zane investigates the Bennett house, finds necromancy runes")
+        .commit("Zane contacts Chakir and Thibauld to ask about the runes");
+
+    weavers.merge(
+        {
+            branch: dyson_bennett,
+            commitOptions: {
+                subject: "Seeing Clara's name, Chakir and Thibauld confirm this was done by the necromancer they hunt"
+            }
+        }
+    );
+
+    euclidcorp.merge(
+        {
+            branch: dyson_bennett,
+            commitOptions: {
+                subject: "The Party concludes that Euclidcorp must have taken Dyson but killed Clara and harvested her soul"
+            }
+        }
+    )
+        .commit("The Party takes Chakir and Thibauld to the underground lab");
+
+    dyson_bennett
+        .merge(
+            {
+                branch: euclidcorp,
+                commitOptions: {
+                    subject: "The Party finds a scrap of a journal referencing 'the other guy' and a compound north of the city; they infer Dyson must be there"
+                }
+            }
+        )
+        .tag(session_tag("Session 33"));
+
+    mac
+        .merge(
+            {
+                branch: dyson_bennett,
+                commitOptions: {
+                    subject: "The Party runs into Mac after splitting up from Chakir and Thibauld"
+                }
+            }
+        )
+        .tag(session_tag("Session 34"));
+
+    euclidcorp
+        .merge(
+            {
+                branch: mac,
+                commitOptions: {
+                    subject: "Mac tells The Party when Euclidcorp moved their equipment out"
+                }
+            }
+        );
+
+    miranda_cosgrove
+        .merge(
+            {
+                branch: mac,
+                commitOptions: {
+                    subject: "One of Mac's family, Lucas, saw Miranda in the tunnels two days earlier. \"She seemed sad,\" he says"
+                }
+            }
+        );
+
+    mac
+        .commit("Mac gives Mia a map of tunnels throughout the city");
+
+    peter_burke
+        .merge(
+            {
+                branch: euclidcorp,
+                commitOptions: {
+                    subject: "Zane meets up with Peter and asks him to track the Euclidcorp trucks"
+                }
+            }
+        );
+
+    mysterious_substance
+        .merge(
+            {
+                branch: peter_burke,
+                commitOptions: {
+                    subject: "Zane cracks a joke about drug dealers, Peter gets serious and tells him about The Pale. Zane gives him Jebarkus' name"
+                }
+            }
+        );
+
+    mozzie
+        .commit("Zane puts up a sticker for Mozzie's blog at the bait shop");
+
+    faustsys
+        .commit("The Party returns to Zane's house to learn from Oak that McKenna showed up, apparently to kill Zane, but forgot why she was there");
+
+    timeline.commit("Day 25");
+
+    faustsys
+        .commit("Zane calls McKenna, she can barely perceive him. She tells him Jerry is pissed, wants to kill him")
+        .tag("Session 35");
+
+    miller_rain
+        .commit("Ricky continues searching for clues to his mom's whereabouts, but comes up empty");
+
+    faustsys
+        .commit("Zane tries to meet up with McKenna as Oak");
+
+    markus
+        .merge(
+            {
+                branch: faustsys,
+                commitOptions: {
+                    subject: "The Party realizes the same thing happened with the cop, assume Markus used his connections to do this"
+                }
+            }
+        );
+
+    faustsys
+        .commit("The Party follows McKenna while she is unaware; Zane overhears her communing with Jerry in another language")
+        .commit("Zane damages McKenna's ritual circle after she leaves");
+
+    timeline.commit("Day 26");
+
+    dyson_bennett
+        .commit("The Party breaks into a power substation to hack into the power company; they locate a potential Euclidcorp site where Dyson could be held")
+        .tag(session_tag("Session 36"));
+
+    euclidcorp
+        .merge(
+            {
+                branch: dyson_bennett,
+                commitOptions: {
+                    subject: "Vantus finds a strange junction box that looks like it would hold crystals"
+                }
+            }
+        )
+        .commit("Zane meets up with Mozzie, who reveals to him that the box isn't meant to pull from the power grid, but push something out somehow");
+
+    mozzie
+        .merge(
+            {
+                branch: euclidcorp,
+                commitOptions: {
+                    subject: "Mozzie is convinced Euclidcorp is in league with \"the Kirellions\" that he writes about on his blog"
+                }
+            }
+        );
+    
+    timeline.commit("Day 27");
+
+    dyson_bennett
+        .commit("Ricky hacks into the building department's network to get blueprints of the Euclidcorp compound")
+        .tag(session_tag("Session 37"))
+        .commit("The Party does some recon on the compound; Zane sees with his drone that the compound is bigger than the plans now");
+
+    timeline.commit("Day 28");
+
+    dyson_bennett
+        .commit("The Party infiltrates CPS and steals the info on where the Bennett kids are fostered")
+        .commit("The Party stakes out the Bennett kids' foster home")
+        .tag(session_tag("Session 38"))
+        .commit("Zane disguises himself as the cable guy to gain entry, then <i>suggests</i> to the foster mom to watch tv")
+        .commit("Ricky catfishes James Bennett; Vantus convinces him to get his sister and leave with The Party")
+        .commit("The Party leaves the kids at Zane's house")
+        .commit("The Party jumps the wall of the compound by the large fabricated metal building that glows purple inside");
 
   </script>
 </body>
